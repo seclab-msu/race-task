@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>Impossible OTP</title>
+<script>
+function submit_email(){
+    fetch('/email-code/send/', {
+            method: 'POST', 
+            headers:{
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            },
+            body:('email=' + document.getElementById('email').value)
+    }).then((response) => {
+        response.text().then((data)=>{
+            document.getElementById('code').disabled = false;
+            document.getElementById('codebutton').disabled = false;
+            document.verification_uuid = data;
+        });
+    });
+}
+function submit_code(){
+    fetch('/email-code/validate/', {
+            method: 'POST', 
+            headers:{
+                'Content-Type' : 'application/json'
+            },
+            body:JSON.stringify({
+                "uuid" : document.verification_uuid,
+                "validation_code": document.getElementById('code').value
+             })
+    }).then((response) => {
+        response.text().then((data)=>{
+            document.getElementById('result').innerText = data;
+        });
+    })
+}
+</script>
+</head>
+<body>
+In order to get your flag, finish the sign-up procedure:<br>
+Enter email: <br>
+<input id="email" type="text"></input><br>
+<input type="button" onclick="submit_email()" value="Send code"></input><br>
+Enter code: <br>
+<input id="code" type="text" disabled></input><br>
+<input type="button" id="codebutton" onclick="submit_code()" disabled value="Verify code"></input><br>
+
+Result:
+<p id="result"></p>
+
+</body>

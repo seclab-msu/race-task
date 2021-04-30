@@ -2,8 +2,7 @@ from flask.cli import FlaskGroup
 from race import app, db, User
 cli = FlaskGroup(app)
 
-
-FLAG = 'Here be real flag'
+FLAG = open('flag.txt', 'r').read()
 
 @cli.command("create_db")
 def create_db():

@@ -6,10 +6,10 @@ services:
     command: python manage.py run -h 0.0.0.0
     volumes:
       - ./services/web/:/usr/src/app/
-    ports:
-      - 5000:5000
+    expose:
+      - 5000
     env_file:
-      - ./.env.dev
+      - ./.env.prod
   db:
     image: postgres:12-alpine
     volumes:
@@ -20,6 +20,11 @@ services:
       - POSTGRES_USER=hello_flask
       - POSTGRES_PASSWORD=hello_flask
       - POSTGRES_DB=hello_flask_dev
-
+  nginx:
+    build: ./services/nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web
 volumes:
   postgres_data:

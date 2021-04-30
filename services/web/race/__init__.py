@@ -47,7 +47,7 @@ def send_email_code():
         id=str(uuid.uuid4()),
         email=email,
         code=verification_code,
-        expiry_date=datetime.datetime.now() + datetime.timedelta(seconds=6000),
+        expiry_date=datetime.datetime.now() + datetime.timedelta(hours=6),
         available_attempts = 5
     )
     send_code(email, verification_code)
